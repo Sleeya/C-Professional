@@ -1,6 +1,5 @@
 ﻿using System;
-
-public class Tiger : Feline, ISayHungry, IFeedable
+public class Tiger : Feline
 {
     public Tiger(string name, double weight, string livingregion, string breed) : base(name, weight, livingregion, breed)
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Owl:Bird, ISayHungry, IFeedable
+public class Owl:Bird
 {
     public Owl(string name, double weight, double wingSize) : base(name, weight, wingSize)
     {

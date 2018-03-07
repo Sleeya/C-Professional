@@ -7,6 +7,14 @@ class StartUp
     static void Main(string[] args)
     {
         List<Animal> zoo = new List<Animal>();
+
+        PopulateTheZoo(zoo);
+
+        PrintTheZoo(zoo);
+    }
+
+    private static void PopulateTheZoo(List<Animal> zoo)
+    {
         var command = string.Empty;
         while ((command = Console.ReadLine()) != "End")
         {
@@ -54,7 +62,10 @@ class StartUp
             }
 
         }
+    }
 
+    private static void PrintTheZoo(List<Animal> zoo)
+    {
         foreach (var animal in zoo)
         {
             Console.WriteLine(animal);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Cat:Feline, ISayHungry, IFeedable
+public class Cat:Feline
 {
     public Cat(string name, double weight, string livingregion, string breed) : base(name, weight, livingregion, breed)
     {

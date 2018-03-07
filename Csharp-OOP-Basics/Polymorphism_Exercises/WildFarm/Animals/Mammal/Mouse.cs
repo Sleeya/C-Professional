@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Mouse : Mammal, ISayHungry, IFeedable
+public class Mouse : Mammal
 {
     public Mouse(string name, double weight, string livingregion) : base(name, weight, livingregion)
     {

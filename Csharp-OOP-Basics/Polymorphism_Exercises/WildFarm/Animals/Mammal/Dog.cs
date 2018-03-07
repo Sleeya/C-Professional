@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Dog : Mammal, ISayHungry, IFeedable
+public class Dog : Mammal
 {
     public Dog(string name, double weight, string livingregion) : base(name, weight, livingregion)
     {
