@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 public class ItemFactory
 {
-    public static Item CreateItem(string itemName)
+    public  static Item CreateItem(string itemName)
     {
-        
+
         switch (itemName)
         {
             case "ArmorRepairKit":
@@ -14,8 +13,10 @@ public class ItemFactory
                 return new HealthPotion();
             case "PoisonPotion":
                 return new PoisonPotion();
+            default:
+                throw new ArgumentException($"Invalid item \"{itemName}\"!");
         }
 
-        throw new ArgumentException($"Invalid item \"{itemName}\"!");
+
     }
 }

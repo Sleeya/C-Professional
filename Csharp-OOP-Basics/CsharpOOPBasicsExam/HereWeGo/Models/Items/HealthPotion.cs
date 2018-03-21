@@ -2,17 +2,14 @@
 
 public class HealthPotion:Item
 {
-    public HealthPotion()
+    public HealthPotion():base(5)
     {
-        base.Weight = 5;
+       
     }
 
     public override void AffectCharacter(Character character)
     {
-        if (character.IsAlive == false)
-        {
-            throw new ArgumentException("Must be alive to perform this action!");
-        }
+        character.ValidateCharacter();
 
         character.Health += 20;
     }

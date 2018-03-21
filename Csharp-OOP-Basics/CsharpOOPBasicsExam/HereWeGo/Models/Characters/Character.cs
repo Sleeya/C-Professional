@@ -17,11 +17,16 @@ public abstract class Character
     protected Character(string name, double health, double armor, double abilityPoints, Bag bag, Faction faction)
     {
         this.Name = name;
+
+        this.BaseHealth = health;
         this.Health = health;
+
+        this.BaseArmor = armor;
         this.Armor = armor;
+
         this.AbilityPoints = abilityPoints;
         this.Bag = bag;
-        this.Faction = faction;
+        this.faction = faction;
     }
 
     public string Name
@@ -50,10 +55,6 @@ public abstract class Character
         get => this.health;
         set
         {
-            
-
-            
-
             if (value < 0)
             {
                 this.health = 0;
@@ -66,8 +67,6 @@ public abstract class Character
             {
                 this.health = value;
             }
-
-
         }
     }
 
@@ -124,104 +123,80 @@ public abstract class Character
     public Faction Faction
     {
         get => this.faction;
-        protected set => this.faction = value;
+        
     }
+
+
 
     public void TakeDamage(double hitPoints)
     {
-        if (IsAlive)
+        ValidateCharacter();
+        double difference = this.Armor - hitPoints;
+        this.Armor -= hitPoints;
+        if (difference < 0)
         {
-            double difference = this.Armor - hitPoints;
-            this.Armor -= hitPoints;
-            if (difference < 0)
+            this.Health -= Math.Abs(difference);
+            if (this.Health <= 0)
             {
-                this.Health -= Math.Abs(difference);
-                if (this.Health <= 0)
-                {
-                    this.IsAlive = false;
-                }
+                this.IsAlive = false;
             }
-
         }
+
+
     }
 
     public void Rest()
     {
-        if (this.IsAlive)
+        ValidateCharacter();
+        if (this.GetType().Name == "Cleric")
         {
-            if (this.GetType().Name == "Cleric")
+            if (this.health + (this.BaseHealth * this.RestHealMultiplier) > 50)
             {
-                if (this.health + (this.BaseHealth * this.RestHealMultiplier) > 50)
-                {
-                    this.health = 50;
-                }
+                this.health = 50;
+            }
 
-            }
-            else
-            {
-                this.Health += (this.BaseHealth * this.RestHealMultiplier);
-            }
-            
         }
+        else
+        {
+            this.Health += (this.BaseHealth * this.RestHealMultiplier);
+        }
+
     }
 
     public void UseItem(Item item)
     {
-        if (IsAlive)
-        {
-            string itemType = item.GetType().Name;
-            switch (itemType)
-            {
-                case "ArmorRepairKit":
-                    if (this.IsAlive == false)
-                    {
-                        throw new InvalidOperationException("Must be alive to perform this action!");
-                    }
-                    this.Armor = this.BaseArmor;
-                    break;
-                case "HealthPotion":
-                    if (this.IsAlive == false)
-                    {
-                        throw new InvalidOperationException("Must be alive to perform this action!");
-                    }
-                    this.Health += 20;
-                    break;
-                case "PoisonPotion":
-                    if (this.IsAlive == false)
-                    {
-                        throw new InvalidOperationException("Must be alive to perform this action!");
-                    }
-                    this.Health -= 20;
-                    if (this.Health <= 0)
-                    {
-                        this.IsAlive = false;
-                    }
-                    break;
-            }
-        }
+        ValidateCharacter();
+        item.AffectCharacter(this);
+
     }
 
     public void UseItemOn(Item item, Character character)
     {
-        if (this.IsAlive && character.IsAlive)
-        {
-            item.AffectCharacter(character);
-        }
+        ValidateCharacter();
+        character.ValidateCharacter();
+
+        item.AffectCharacter(character);
     }
 
     public void GiveCharacterItem(Item item, Character character)
     {
-        if (this.IsAlive && character.IsAlive)
-        {
-            character.Bag.AddItem(item);
-        }
+        ValidateCharacter();
+        character.ValidateCharacter();
+
+        character.Bag.AddItem(item);
     }
 
     public void ReceiveItem(Item item)
     {
-        if (this.IsAlive)
+        ValidateCharacter();
+        this.Bag.AddItem(item);
+    }
+
+    public void ValidateCharacter()
+    {
+        if (!this.IsAlive)
         {
-            this.Bag.AddItem(item);
+            throw new InvalidOperationException("Must be alive to perform this action!");
         }
     }
 }

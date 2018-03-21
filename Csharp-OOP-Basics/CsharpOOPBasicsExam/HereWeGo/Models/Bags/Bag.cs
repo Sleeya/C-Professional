@@ -6,15 +6,13 @@ using System.Security.Cryptography.X509Certificates;
 public abstract class Bag
 {
     private int capacity = 100;
-    private int load;
-    private IReadOnlyCollection<Item> items;
+    private int Load => this.items.Sum(x => x.Weight);
+    private List<Item> items;
 
     protected Bag(int capacity)
     {
         this.Capacity = capacity;
-        this.Items = new List<Item>();
-        this.Load = Items.Sum(x => x.Weight);
-       
+        this.items = new List<Item>();
 
     }
 
@@ -24,25 +22,18 @@ public abstract class Bag
         protected set => this.capacity = value;
     }
 
-    public int Load
-    {
-        get => this.load;
-        protected set => this.load = value;
-    }
-
     public IReadOnlyCollection<Item> Items
     {
-        get => this.items;
-        protected set => this.items = value;
+        get => this.items.AsReadOnly();
     }
 
     public void AddItem(Item item)
     {
         if (this.Load + item.Weight > this.Capacity)
         {
-            throw  new InvalidOperationException("Bag is full!");
+            throw new InvalidOperationException("Bag is full!");
         }
-        ((List<Item>)this.Items).Add(item);
+        this.items.Add(item);
     }
 
     public Item GetItem(string name)
@@ -52,13 +43,13 @@ public abstract class Bag
             throw new InvalidOperationException("Bag is empty!");
         }
 
-        if (!this.Items.Any(x=>x.GetType().Name==name))
+        if (!this.Items.Any(x => x.GetType().Name == name))
         {
-           throw new ArgumentException($"No item with name {name} in bag!");
+            throw new ArgumentException($"No item with name {name} in bag!");
         }
 
         Item item = this.Items.FirstOrDefault(x => x.GetType().Name == name);
-        ((List<Item>) this.Items).Remove(item);
+        this.items.Remove(item);
         return item;
     }
 

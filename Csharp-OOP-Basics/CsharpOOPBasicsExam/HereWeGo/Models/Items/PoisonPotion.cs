@@ -1,17 +1,14 @@
 ﻿using System;
 
-public class PoisonPotion:Item
+public class PoisonPotion : Item
 {
-    public PoisonPotion()
+    public PoisonPotion() : base(5)
     {
-        base.Weight = 5;
+
     }
     public override void AffectCharacter(Character character)
     {
-        if (character.IsAlive == false)
-        {
-            throw new ArgumentException("Must be alive to perform this action!");
-        }
+        character.ValidateCharacter();
 
         character.Health -= 20;
         if (character.Health <= 0)

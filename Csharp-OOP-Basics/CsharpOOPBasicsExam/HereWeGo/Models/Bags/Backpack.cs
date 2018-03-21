@@ -1,8 +1,8 @@
 ﻿public class Backpack : Bag
 {
-    public Backpack(int capacity) : base(capacity)
+    public Backpack() : base(100)
     {
-        base.Capacity = 100;
+        
     }
 
 }

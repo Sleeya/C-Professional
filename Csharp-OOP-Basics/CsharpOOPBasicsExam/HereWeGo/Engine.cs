@@ -16,14 +16,15 @@ public class Engine
 
     public void Run()
     {
-
-
         while (this.isRunning)
         {
             var inputCommand = Console.ReadLine();
-            if (inputCommand == null)
+            if (string.IsNullOrEmpty(inputCommand)|| this.master.IsGameOver())
             {
-                break;
+                Console.WriteLine("Final stats:");
+                Console.WriteLine(this.master.GetStats());
+                this.isRunning = false;
+                return;
             }
             var commandArgs = ParseInput(inputCommand);
             try
@@ -50,56 +51,46 @@ public class Engine
     {
         var command = commandArgs[0];
         commandArgs = commandArgs.Skip(1).ToArray();
-        string output;
+
+        var output = string.Empty;
 
         switch (command)
         {
             case "JoinParty":
                 output = this.master.JoinParty(commandArgs);
-                Console.WriteLine(output);
                 break;
             case "AddItemToPool":
                 output = this.master.AddItemToPool(commandArgs);
-                Console.WriteLine(output);
                 break;
             case "PickUpItem":
                 output = this.master.PickUpItem(commandArgs);
-                Console.WriteLine(output);
                 break;
             case "UseItem":
                 output = this.master.UseItem(commandArgs);
-                Console.WriteLine(output);
-                break;
                 break;
             case "UseItemOn":
                 output = this.master.UseItemOn(commandArgs);
-                Console.WriteLine(output);
-                break; break;
+                break; 
             case "GiveCharacterItem":
                 output = this.master.GiveCharacterItem(commandArgs);
-                Console.WriteLine(output);
-                break; break;
+                break; 
             case "GetStats":
                 output = this.master.GetStats();
-                Console.WriteLine(output);
-                break; break;
+                break; 
             case "Attack":
                 output = this.master.Attack(commandArgs);
-                Console.WriteLine(output);
-                break; break;
+                break; 
             case "Heal":
                 output = this.master.Heal(commandArgs);
-                Console.WriteLine(output);
-                break; break;
+                break; 
             case "EndTurn":
                 output = this.master.EndTurn(commandArgs);
-                Console.WriteLine(output);
                 break;
-            case "IsGameOver":
-                Console.WriteLine(this.master.IsGameOver());
-                break;
-                
+        }
 
+        if (output != string.Empty)
+        {
+            Console.WriteLine(output);
         }
     }
 

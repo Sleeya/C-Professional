@@ -19,7 +19,6 @@ public class DungeonMaster
         string faction = args[0];
         string characterType = args[1];
         string name = args[2];
-
         var character = CharacterFactory.CreateCharacter(faction, characterType, name);
         characters.Add(character);
         return $"{name} joined the party!";
@@ -28,7 +27,6 @@ public class DungeonMaster
     public string AddItemToPool(string[] args)
     {
         string itemName = args[0];
-
         var currentItem = ItemFactory.CreateItem(itemName);
         items.Add(currentItem);
 
@@ -59,7 +57,8 @@ public class DungeonMaster
 
         ValidateCharName(characterName);
         var currentChar = characters.FirstOrDefault(x => x.Name == characterName);
-        currentChar.UseItem(currentChar.Bag.GetItem(itemName));
+        var item = currentChar.Bag.GetItem(itemName);
+        currentChar.UseItem(item);
 
         return $"{characterName} used {itemName}.";
     }
@@ -102,14 +101,15 @@ public class DungeonMaster
     {
         StringBuilder result = new StringBuilder();
 
-        foreach (var character in characters.OrderByDescending(x => x.IsAlive).ThenBy(x => x.Health))
+        var sortedChars = this.characters.OrderByDescending(x => x.IsAlive).ThenByDescending(x => x.Health);
+        foreach (var character in sortedChars)
         {
             result.AppendLine(
                 $"{character.Name} - HP: {character.Health}/{character.BaseHealth}, AP: {character.Armor}/{character.BaseArmor}," +
                 $" Status: {(character.IsAlive ? "Alive" : "Dead")}");
         }
 
-        return string.Join(Environment.NewLine, result.ToString().Trim());
+        return result.ToString().Trim();
     }
 
     public string Attack(string[] args)
@@ -170,32 +170,19 @@ public class DungeonMaster
 
     public string EndTurn(string[] args)
     {
-        int currentlyLiveChars = 0;
+        var aliveCharacters = characters.Where(c => c.IsAlive).ToArray();
         StringBuilder builder = new StringBuilder();
-        foreach (var character in characters)
+
+        foreach (var character in aliveCharacters)
         {
             double healthBeforeRest = character.Health;
-            if (character.IsAlive)
-            {
-                character.Rest();
-                currentlyLiveChars++;
-                builder.AppendLine($"{character.Name} rests ({healthBeforeRest} => {character.Health})");
-            }
+            character.Rest();
+            builder.AppendLine($"{character.Name} rests ({healthBeforeRest} => {character.Health})");
         }
 
-
-
-        if (currentlyLiveChars < 2)
+        if (aliveCharacters.Length < 2)
         {
-            lastSurvivorRounds += 1;
-
-        }
-
-        if (IsGameOver())
-        {
-
-            builder.AppendLine("Final stats:");
-            builder.AppendLine(GetStats());
+            lastSurvivorRounds++;
         }
 
         return builder.ToString().Trim();
@@ -203,10 +190,12 @@ public class DungeonMaster
 
     public bool IsGameOver()
     {
-        if (lastSurvivorRounds >= 2)
+        if (characters.Select(x => x.IsAlive).Count() < 2 && lastSurvivorRounds > 1)
         {
             return true;
         }
+
+
         return false;
     }
 

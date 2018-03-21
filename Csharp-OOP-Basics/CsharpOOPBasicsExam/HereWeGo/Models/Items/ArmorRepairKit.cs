@@ -2,17 +2,14 @@
 
 public class ArmorRepairKit:Item
 {
-    public ArmorRepairKit()
+    public ArmorRepairKit():base(10)
     {
-        base.Weight = 10;
+       
     }
 
     public override void AffectCharacter(Character character)
     {
-        if (character.IsAlive == false)
-        {
-            throw new ArgumentException("Must be alive to perform this action!");
-        }
+        character.ValidateCharacter();
 
         character.Armor = character.BaseArmor;
     }

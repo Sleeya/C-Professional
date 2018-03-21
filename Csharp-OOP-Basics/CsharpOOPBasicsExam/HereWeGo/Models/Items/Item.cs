@@ -4,11 +4,6 @@ public abstract class Item
 {
     private int weight;
 
-    protected Item()
-    {
-
-    }
-
     protected Item(int weight)
     {
         this.Weight = weight;
