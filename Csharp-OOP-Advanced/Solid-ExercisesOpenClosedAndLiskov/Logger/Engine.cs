@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Logger.Models;
+using Logger.Models.Contracts;
+using Logger.Models.Factories;
+
+namespace Logger
+{
+    public class Engine
+    {
+        private ILogger logger;
+        private ErrorFactory errorFactory;
+
+        public Engine(ILogger logger,ErrorFactory factory)
+        {
+            this.logger = logger;
+            this.errorFactory = factory;
+        }
+
+        // INFO|3/26/2015 2:08:11 PM|Everything seems fine
+        public void Run()
+        {
+            string input;
+            while ((input = Console.ReadLine())!="END")
+            {
+                string[] errorArgs = input.Split("|");
+                string level = errorArgs[0];
+                string dateTime = errorArgs[1];
+                string message = errorArgs[2];
+
+                IError error = errorFactory.CreateError(dateTime, level, message);
+
+                logger.Log(error);
+            }
+
+            Console.WriteLine($"Logger info");
+
+            foreach (IAppender appender in this.logger.Appenders)
+            {
+                Console.WriteLine(appender);
+            }
+        }
+    }
+}
