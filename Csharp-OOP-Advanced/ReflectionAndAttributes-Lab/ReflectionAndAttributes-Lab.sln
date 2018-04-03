@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stealer", "Stealer\Stealer.csproj", "{AE63CCCD-370B-489A-9CA8-B9FB28AEE89A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateAttribute", "CreateAttribute\CreateAttribute.csproj", "{C7456C14-1863-40F9-A309-ACC0EBA7AAA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE63CCCD-370B-489A-9CA8-B9FB28AEE89A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE63CCCD-370B-489A-9CA8-B9FB28AEE89A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE63CCCD-370B-489A-9CA8-B9FB28AEE89A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE63CCCD-370B-489A-9CA8-B9FB28AEE89A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7456C14-1863-40F9-A309-ACC0EBA7AAA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7456C14-1863-40F9-A309-ACC0EBA7AAA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7456C14-1863-40F9-A309-ACC0EBA7AAA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7456C14-1863-40F9-A309-ACC0EBA7AAA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {376C049A-6E03-48A0-815F-FB1BEFA2A5C3}
+	EndGlobalSection
+EndGlobal
