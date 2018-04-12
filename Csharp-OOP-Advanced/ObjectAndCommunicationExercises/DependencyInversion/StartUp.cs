@@ -1,4 +1,5 @@
 ﻿using System;
+using DependencyInversion.Strategies;
 
 namespace DependencyInversion
 {
@@ -6,20 +7,39 @@ namespace DependencyInversion
     {
         static void Main(string[] args)
         {
-            PrimitiveCalculator calculator = new PrimitiveCalculator();
+            PrimitiveCalculator calculator = new PrimitiveCalculator(new AdditionStrategy());
 
             string command;
-            while ((command = Console.ReadLine())!="End")
+            while ((command = Console.ReadLine()) != "End")
             {
-                if (command.StartsWith("mode"))
-                {
-                    calculator.changeStrategy(command[command.Length - 1]);
-                    continue;
-                }
-                int firstNum = int.Parse(command.Split()[0]);
-                int secondNum = int.Parse(command.Split()[1]);
+                var input = command.Split();
 
-                Console.WriteLine(calculator.performCalculation(firstNum, secondNum));
+                if (input[0] == "mode")
+                {
+                    var strategyType = input[1];
+
+                    switch (strategyType)
+                    {
+                        case "+":
+                            calculator.ChangeStrategy(new AdditionStrategy());
+                            break;
+                        case "-":
+                            calculator.ChangeStrategy(new SubtractionStrategy());
+                            break;
+                        case "*":
+                            calculator.ChangeStrategy(new MultiplicationStrategy());
+                            break;
+                        case "/":
+                            calculator.ChangeStrategy(new DivisionStrategy());
+                            break;
+                    }
+                }
+                else
+                {
+                    int firstNum = int.Parse(input[0]);
+                    int secondNum = int.Parse(input[1]);
+                    Console.WriteLine(calculator.PerformCalculation(firstNum, secondNum));
+                }
             }
         }
     }
