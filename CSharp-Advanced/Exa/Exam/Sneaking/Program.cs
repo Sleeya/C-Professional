@@ -71,6 +71,7 @@ namespace Sneaking
                         samIndex[1]++;
                         break;
                 }
+                PrintExitMatrix();
             }
         }
 
@@ -142,7 +143,8 @@ namespace Sneaking
                 Console.WriteLine();
             }
 
-            Environment.Exit(0);
+            //Environment.Exit(0);
+            Console.WriteLine();
         }
 
         private static void InitializeMatrix(int rows)
